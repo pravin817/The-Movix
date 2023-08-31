@@ -25,19 +25,27 @@ function App() {
   console.log(url);
 
   useEffect(() => {
-    ApiTesting();
+    fetchApiConfig();
   }, []);
 
-  const ApiTesting = () => {
-    fetchDataFromApi("/movie/popular").then((response) => {
+  const fetchApiConfig = () => {
+    fetchDataFromApi("/configuration").then((response) => {
       console.log(response);
-      dispatch(getApiConfiguration(response));
+
+      const url = {
+        backdrop: response.images.secure_base_url + "original",
+        banner: response.images.secure_base_url + "original",
+        profile: response.images.secure_base_url + "original",
+      };
+
+      // store the backdrop, banner, profile url in store
+      dispatch(getApiConfiguration(url));
     });
   };
 
   return (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:mediaType/:id" element={<Details />} />
@@ -45,7 +53,7 @@ function App() {
         <Route path="/explore/:mediaType" element={<Explore />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
