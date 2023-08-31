@@ -3,6 +3,9 @@ import { fetchDataFromApi } from "./utils/api";
 import { useSelector, useDispatch } from "react-redux";
 import { getApiConfiguration } from "./store/homeSlice";
 
+// Set up React-Router-Dom
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 // import the components
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -33,12 +36,17 @@ function App() {
   };
 
   return (
-    <>
-      <div className="App">
-        Hello
-        {url?.total_pages}
-      </div>
-    </>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/:mediaType/:id" element={<Details />} />
+        <Route path="/search/:query" element={<SearchResult />} />
+        <Route path="/explore/:mediaType" element={<Explore />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
   );
 }
 
