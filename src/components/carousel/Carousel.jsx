@@ -14,7 +14,7 @@ import "./style.scss";
 import CircleRating from "../circleRating/CircleRating";
 import Genres from "../genres/Genres";
 
-const Carousel = ({ data, loading }) => {
+const Carousel = ({ data, loading, endpoint }) => {
   // It will provide the refernce to the div   we need to take the refernce of the container like we use the document.getElementById() in js
   const carouselContainer = useRef();
 
@@ -67,10 +67,7 @@ const Carousel = ({ data, loading }) => {
           onClick={() => navigation("right")}
         />
         {!loading ? (
-          <div
-            className="carouselItems"
-            ref={carouselContainer}
-          >
+          <div className="carouselItems" ref={carouselContainer}>
             {data?.map((item) => {
               const posterUrl = item.poster_path
                 ? url.backdrop + item.poster_path
@@ -80,7 +77,9 @@ const Carousel = ({ data, loading }) => {
                 <div
                   key={item.id}
                   className="carouselItem"
-                  onClick={() => navigate(`${item.media_type}/${item.id}`)}
+                  onClick={() =>
+                    navigate(`${item.media_type || endpoint}/${item.id}`)
+                  }
                 >
                   {/* poster block  */}
                   <div className="posterBlock">
