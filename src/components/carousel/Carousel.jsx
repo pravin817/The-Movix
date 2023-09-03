@@ -22,9 +22,23 @@ const Carousel = ({ data, loading }) => {
   const { url } = useSelector((state) => state.home);
 
   console.log(url);
+  console.log(data);
   const navigate = useNavigate();
 
-  const navigation = (dir) => {};
+  // The left and right scrolling
+  const navigation = (dir) => {
+    const container = carouselContainer.current;
+
+    const scrollAmount =
+      dir === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   // The Animated carousel section
   const skItem = () => {
@@ -53,14 +67,21 @@ const Carousel = ({ data, loading }) => {
           onClick={() => navigation("right")}
         />
         {!loading ? (
-          <div className="carouselItems">
+          <div
+            className="carouselItems"
+            ref={carouselContainer}
+          >
             {data?.map((item) => {
               const posterUrl = item.poster_path
                 ? url.backdrop + item.poster_path
                 : PosterFallback;
 
               return (
-                <div key={item.id} className="carouselItem">
+                <div
+                  key={item.id}
+                  className="carouselItem"
+                  onClick={() => navigate(`${item.media_type}/${item.id}`)}
+                >
                   {/* poster block  */}
                   <div className="posterBlock">
                     <Img src={posterUrl} />
