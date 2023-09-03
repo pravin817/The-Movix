@@ -12,6 +12,7 @@ import Img from "../lazyLoadImage/Img";
 import PosterFallback from "../../assets/no-poster.png";
 import "./style.scss";
 import CircleRating from "../circleRating/CircleRating";
+import Genres from "../genres/Genres";
 
 const Carousel = ({ data, loading }) => {
   // It will provide the refernce to the div   we need to take the refernce of the container like we use the document.getElementById() in js
@@ -64,7 +65,11 @@ const Carousel = ({ data, loading }) => {
                   <div className="posterBlock">
                     <Img src={posterUrl} />
 
+                    {/* The circular rating components send the average vote as rating  */}
                     <CircleRating rating={item.vote_average.toFixed(1)} />
+
+                    {/* The genres compount send the first two genre only */}
+                    <Genres data={item.genre_ids.slice(0, 2)} />
                   </div>
 
                   <div className="textBlock">
